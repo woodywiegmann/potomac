@@ -1,0 +1,161 @@
+//@version=6
+indicator("Penta Graduated Regime", overlay=true, max_labels_count=500)
+
+// ─────────────────────────────────────────────────────────────
+// Potomac Penta Signal Architecture (from graduated_penta.py)
+//
+// CORE PENTA (4 indicators):
+//   1. S&P 500 > 50-day SMA, smoothed by 5-day SMA of binary
+//   2. DJT > 5-day SMA
+//   3. NYA > 5-day SMA
+//   4. LQD > 5-day SMA
+//   3+ of 4 = Penta ON
+//
+// OVERLAYS:
+//   5. RSI(14) on S&P < 75
+//   6. VIX < 5-day SMA
+//
+// COMPOSITE = Penta*50% + Trend*20% + RSI*15% + VIX*15%
+//
+// REGIMES:
+//   >= 0.85  FULL RISK-ON
+//   >= 0.50  MEDIUM
+//   >= 0.20  RISK-OFF
+//   <  0.20  EXTREME TAIL (if VIX > 25)
+// ─────────────────────────────────────────────────────────────
+
+// Verified TradingView tickers (confirmed on tradingview.com)
+string TK_SPX = "SP:SPX"
+string TK_DJT = "DJ:DJT"
+string TK_NYA = "NYSE:NYA"
+string TK_LQD = "AMEX:LQD"
+string TK_VIX = "CBOE:VIX"
+
+// ── Fetch external data ──────────────────────────────────────
+float spxClose = request.security(TK_SPX, timeframe.period, close)
+float djtClose = request.security(TK_DJT, timeframe.period, close)
+float nyaClose = request.security(TK_NYA, timeframe.period, close)
+float lqdClose = request.security(TK_LQD, timeframe.period, close)
+float vixClose = request.security(TK_VIX, timeframe.period, close)
+
+// ── Penta 1: S&P trend (price > 50d SMA, 5d binary smooth) ──
+float spxSma50 = ta.sma(spxClose, 50)
+float trendRaw = spxClose > spxSma50 ? 1.0 : 0.0
+float trendSmooth = ta.sma(trendRaw, 5)
+bool p1 = trendSmooth > 0.5
+
+// ── Penta 2: Transports > 5d SMA ────────────────────────────
+float djtSma5 = ta.sma(djtClose, 5)
+bool p2 = djtClose > djtSma5
+
+// ── Penta 3: NYSE breadth > 5d SMA ──────────────────────────
+float nyaSma5 = ta.sma(nyaClose, 5)
+bool p3 = nyaClose > nyaSma5
+
+// ── Penta 4: Credit LQD > 5d SMA ────────────────────────────
+float lqdSma5 = ta.sma(lqdClose, 5)
+bool p4 = lqdClose > lqdSma5
+
+// ── Penta composite ─────────────────────────────────────────
+int pentaCnt = (p1 ? 1 : 0) + (p2 ? 1 : 0) + (p3 ? 1 : 0) + (p4 ? 1 : 0)
+bool pentaOn = pentaCnt >= 3
+float pentaVal = pentaOn ? 1.0 : 0.0
+
+// ── Overlay: RSI(14) < 75 ───────────────────────────────────
+float spxRsi = ta.rsi(spxClose, 14)
+bool rsiOk = spxRsi < 75
+float rsiVal = rsiOk ? 1.0 : 0.0
+
+// ── Overlay: VIX < 5d SMA ───────────────────────────────────
+float vixSma5 = ta.sma(vixClose, 5)
+bool vixOk = vixClose < vixSma5
+float vixVal = vixOk ? 1.0 : 0.0
+
+// ── Composite score ─────────────────────────────────────────
+float trendVal = p1 ? 1.0 : 0.0
+float comp = pentaVal * 0.50 + trendVal * 0.20 + rsiVal * 0.15 + vixVal * 0.15
+
+// ── Regime ──────────────────────────────────────────────────
+string regime = comp >= 0.85 ? "FULL ON" : comp >= 0.50 ? "MEDIUM" : comp >= 0.20 ? "RISK OFF" : (vixClose > 25 ? "EXTREME" : "RISK OFF")
+
+// ── Background ──────────────────────────────────────────────
+color bgCol = comp >= 0.85 ? color.new(color.green, 90) : comp >= 0.50 ? color.new(color.yellow, 92) : comp >= 0.20 ? color.new(color.orange, 90) : color.new(color.red, 85)
+bgcolor(bgCol)
+
+// ── Regime change labels ────────────────────────────────────
+var string lastRegime = ""
+if regime != lastRegime and lastRegime != ""
+    color lc = comp >= 0.85 ? color.green : comp >= 0.50 ? color.yellow : comp >= 0.20 ? color.orange : color.red
+    label.new(bar_index, high, regime, color=lc, textcolor=color.white, style=label.style_label_down, size=size.tiny)
+lastRegime := regime
+
+// ── Alerts ──────────────────────────────────────────────────
+alertcondition(comp >= 0.85 and comp[1] < 0.85, "-> FULL ON", "Penta: FULL RISK-ON")
+alertcondition(comp < 0.50 and comp[1] >= 0.50, "-> RISK OFF", "Penta: RISK OFF")
+
+// ── Dashboard table ─────────────────────────────────────────
+var table t = table.new(position.top_right, 3, 11, bgcolor=color.new(#161b22, 0), border_width=1, border_color=color.new(#30363d, 0))
+
+if barstate.islast
+    // Row 0: Regime header
+    color rBg = comp >= 0.85 ? color.new(color.green, 50) : comp >= 0.50 ? color.new(color.yellow, 60) : comp >= 0.20 ? color.new(color.orange, 50) : color.new(color.red, 40)
+    color rTx = comp >= 0.50 and comp < 0.85 ? color.black : color.white
+    table.cell(t, 0, 0, "REGIME", text_color=#8b949e, text_size=size.tiny)
+    table.cell(t, 1, 0, regime, text_color=rTx, text_size=size.normal, bgcolor=rBg)
+    table.cell(t, 2, 0, str.tostring(comp, "#.##"), text_color=color.white, text_size=size.small, bgcolor=rBg)
+
+    // Row 1: Headers
+    table.cell(t, 0, 1, "Signal", text_color=#8b949e, text_size=size.tiny)
+    table.cell(t, 1, 1, "Status", text_color=#8b949e, text_size=size.tiny)
+    table.cell(t, 2, 1, "Wt", text_color=#8b949e, text_size=size.tiny)
+
+    // Row 2-5: Penta signals
+    color c1 = p1 ? color.new(color.green, 80) : color.new(color.red, 80)
+    color c2 = p2 ? color.new(color.green, 80) : color.new(color.red, 80)
+    color c3 = p3 ? color.new(color.green, 80) : color.new(color.red, 80)
+    color c4 = p4 ? color.new(color.green, 80) : color.new(color.red, 80)
+
+    table.cell(t, 0, 2, "SPX>50d(5d)", text_color=color.white, text_size=size.tiny)
+    table.cell(t, 1, 2, p1 ? "ON" : "OFF", text_color=p1 ? color.lime : color.red, text_size=size.small, bgcolor=c1)
+    table.cell(t, 2, 2, "P", text_color=#8b949e, text_size=size.tiny)
+
+    table.cell(t, 0, 3, "DJT>5d", text_color=color.white, text_size=size.tiny)
+    table.cell(t, 1, 3, p2 ? "ON" : "OFF", text_color=p2 ? color.lime : color.red, text_size=size.small, bgcolor=c2)
+    table.cell(t, 2, 3, "P", text_color=#8b949e, text_size=size.tiny)
+
+    table.cell(t, 0, 4, "NYA>5d", text_color=color.white, text_size=size.tiny)
+    table.cell(t, 1, 4, p3 ? "ON" : "OFF", text_color=p3 ? color.lime : color.red, text_size=size.small, bgcolor=c3)
+    table.cell(t, 2, 4, "P", text_color=#8b949e, text_size=size.tiny)
+
+    table.cell(t, 0, 5, "LQD>5d", text_color=color.white, text_size=size.tiny)
+    table.cell(t, 1, 5, p4 ? "ON" : "OFF", text_color=p4 ? color.lime : color.red, text_size=size.small, bgcolor=c4)
+    table.cell(t, 2, 5, "P", text_color=#8b949e, text_size=size.tiny)
+
+    // Row 6: Penta summary
+    color pBg = pentaOn ? color.new(color.green, 70) : color.new(color.red, 70)
+    table.cell(t, 0, 6, "PENTA", text_color=color.white, text_size=size.tiny)
+    table.cell(t, 1, 6, str.tostring(pentaCnt) + "/4 " + (pentaOn ? "ON" : "OFF"), text_color=pentaOn ? color.lime : color.red, text_size=size.small, bgcolor=pBg)
+    table.cell(t, 2, 6, "50%", text_color=#8b949e, text_size=size.tiny)
+
+    // Row 7: RSI overlay
+    color rsBg = rsiOk ? color.new(color.green, 80) : color.new(color.red, 80)
+    table.cell(t, 0, 7, "RSI(14)", text_color=color.white, text_size=size.tiny)
+    table.cell(t, 1, 7, str.tostring(spxRsi, "#.0") + (rsiOk ? " OK" : " OB"), text_color=rsiOk ? color.lime : color.red, text_size=size.small, bgcolor=rsBg)
+    table.cell(t, 2, 7, "15%", text_color=#8b949e, text_size=size.tiny)
+
+    // Row 8: VIX overlay
+    color vBg = vixOk ? color.new(color.green, 80) : color.new(color.red, 80)
+    table.cell(t, 0, 8, "VIX<5d", text_color=color.white, text_size=size.tiny)
+    table.cell(t, 1, 8, str.tostring(vixClose, "#.1") + (vixOk ? " OK" : " UP"), text_color=vixOk ? color.lime : color.red, text_size=size.small, bgcolor=vBg)
+    table.cell(t, 2, 8, "15%", text_color=#8b949e, text_size=size.tiny)
+
+    // Row 9: Composite
+    table.cell(t, 0, 9, "COMPOSITE", text_color=color.white, text_size=size.tiny)
+    table.cell(t, 1, 9, str.tostring(comp, "#.##"), text_color=color.white, text_size=size.small, bgcolor=rBg)
+    table.cell(t, 2, 9, "100%", text_color=#8b949e, text_size=size.tiny)
+
+    // Row 10: Allocation guide
+    string alloc = comp >= 0.85 ? "100% Equities" : comp >= 0.50 ? "Partial + Defensive" : comp >= 0.20 ? "Heavy Defensive" : "Max Convexity"
+    table.cell(t, 0, 10, "ALLOC", text_color=#8b949e, text_size=size.tiny)
+    table.cell(t, 1, 10, alloc, text_color=color.white, text_size=size.tiny, bgcolor=rBg)
+    table.cell(t, 2, 10, "", text_color=#8b949e, text_size=size.tiny)
