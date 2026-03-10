@@ -1,0 +1,6 @@
+{
+  "errors": [
+    "Orders requested are more than 100, please make sure that the requested range is up to 100 orders."
+  ],
+  "success": false
+}
