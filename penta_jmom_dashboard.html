@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Penta Factor Rotation | Momentum vs Low-Vol</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: #0f1117; color: #e1e4e8; padding: 20px; }
+    .header { background: linear-gradient(135deg, #1f4e79 0%, #2c6e49 100%); padding: 24px 32px; border-radius: 12px; margin-bottom: 20px; }
+    .header h1 { color: #fff; font-size: 1.7em; margin-bottom: 4px; }
+    .header .sub { color: #b0d4c8; font-size: 0.92em; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 10px; margin-bottom: 18px; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 14px; text-align: center; }
+    .card .label { color: #8b949e; font-size: 0.73em; text-transform: uppercase; letter-spacing: 0.5px; }
+    .card .value { font-size: 1.35em; font-weight: 700; color: #58a6ff; margin-top: 4px; }
+    .card .value.green { color: #3fb950; }
+    .card .value.red { color: #f85149; }
+    .section { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 18px; margin-bottom: 16px; }
+    .section h2 { color: #58a6ff; font-size: 1.05em; margin-bottom: 10px; border-bottom: 1px solid #30363d; padding-bottom: 7px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.83em; }
+    th { background: #1f2937; color: #8b949e; padding: 7px 9px; text-align: left; font-weight: 600;
+         text-transform: uppercase; font-size: 0.7em; letter-spacing: 0.5px; position: sticky; top: 0; }
+    td { padding: 5px 9px; border-bottom: 1px solid #21262d; }
+    tr:hover { background: #1c2333; }
+    .ticker { color: #58a6ff; }
+    .score-high { color: #3fb950; font-weight: 600; }
+    .score-mid { color: #d29922; }
+    .score-low { color: #f85149; }
+    .tv-box { background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 10px 14px;
+               font-family: 'Consolas', monospace; font-size: 0.8em; color: #8b949e;
+               word-break: break-all; line-height: 1.5; margin-top: 6px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+    @media (max-width: 1000px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+    .meta { color: #484f58; font-size: 0.76em; text-align: center; margin-top: 14px; }
+    .scroll-table { max-height: 55vh; overflow-y: auto; }
+    .factor-badge { display: inline-block; padding: 8px 20px; border-radius: 8px; font-size: 1.2em; font-weight: 700; }
+    .factor-badge.momentum { background: #1a2a3a; border: 2px solid #58a6ff; color: #58a6ff; }
+    .factor-badge.lowvol { background: #2a1a3a; border: 2px solid #a371f7; color: #a371f7; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Penta Factor Rotation: Momentum vs Low-Vol</h1>
+  <div class="sub">Always invested | JMOM replica (risk-on) / SPLV replica (risk-off) | 1114x Stocks Sleeve | As of 2026-03-07 21:25</div>
+</div>
+
+<div class="cards">
+  <div class="card"><div class="label">Active Factor</div><div class="factor-badge momentum">MOMENTUM</div></div>
+  <div class="card"><div class="label">Calmar</div><div class="value score-mid">0.96</div></div>
+  <div class="card"><div class="label">CAGR</div><div class="value green">16.1%</div></div>
+  <div class="card"><div class="label">Max DD</div><div class="value red">-16.8%</div></div>
+  <div class="card"><div class="label">Sharpe</div><div class="value">1.06</div></div>
+  <div class="card"><div class="label">Beta</div><div class="value">0.60</div></div>
+  <div class="card"><div class="label">Win Rate</div><div class="value">60%</div></div>
+  <div class="card"><div class="label">$100K Becomes</div><div class="value green">$227,370</div></div>
+</div>
+
+<div class="grid-2">
+  <div class="section">
+    <h2>Penta Signal (determines factor)</h2>
+    <table><thead><tr><th>Signal</th><th>Value</th><th>Status</th></tr></thead><tbody>
+    <tr><td>SPY > 200d SMA</td><td>0.053</td><td class="score-high"><b>BULLISH</b></td></tr>
+    <tr><td>VIX < 20</td><td>19.860</td><td class="score-high"><b>BULLISH</b></td></tr>
+    <tr><td>10Y Yield ROC < 0</td><td>-0.045</td><td class="score-high"><b>BULLISH</b></td></tr>
+    <tr><td>Credit LQD/SHY > 50d</td><td>0.005</td><td class="score-high"><b>BULLISH</b></td></tr>
+    </tbody></table>
+    <p style="color:#484f58; margin-top:6px; font-size:0.75em;">3/4 bullish = MOMENTUM | 2 or fewer = LOW-VOL</p>
+  </div>
+  <div class="section">
+    <h2>Factor Rotation Rules</h2>
+    <table><tbody>
+      <tr><td style="color:#58a6ff; font-weight:600;">RISK ON (Momentum)</td><td>Top 50 S&P 500 by 12-1 momentum + risk-adj, 2% each</td></tr>
+      <tr><td style="color:#a371f7; font-weight:600;">RISK OFF (Low-Vol)</td><td>50 lowest-vol S&P 500 stocks (252d), 2% each</td></tr>
+      <tr><td>Transition Cost</td><td>10bps slippage per switch</td></tr>
+      <tr><td>Rebalance</td><td>Monthly (active factor reconstituted)</td></tr>
+      <tr><td>Leverage</td><td>None</td></tr>
+      <tr><td>Cash Position</td><td>Never -- always fully invested</td></tr>
+    </tbody></table>
+  </div>
+</div>
+
+<div class="section">
+  <h2>Current Holdings: MOMENTUM Portfolio (50 stocks)</h2>
+  <div class="scroll-table">
+  <table>
+    <thead><tr><th>#</th><th>Ticker</th><th>Sector</th><th>Mom 12-1</th><th>Score</th><th>Weight</th></tr></thead>
+    <tbody>
+    <tr><td>1</td><td class="ticker"><b>WDC</b></td><td>Information Technology</td><td>479.8%</td><td>99.8</td><td>2.0%</td></tr>
+    <tr><td>2</td><td class="ticker"><b>MU</b></td><td>Information Technology</td><td>376.2%</td><td>99.6</td><td>2.0%</td></tr>
+    <tr><td>3</td><td class="ticker"><b>LRCX</b></td><td>Information Technology</td><td>228.8%</td><td>99.0</td><td>2.0%</td></tr>
+    <tr><td>4</td><td class="ticker"><b>NEM</b></td><td>Materials</td><td>206.5%</td><td>98.9</td><td>2.0%</td></tr>
+    <tr><td>5</td><td class="ticker"><b>FIX</b></td><td>Industrials</td><td>229.6%</td><td>98.9</td><td>2.0%</td></tr>
+    <tr><td>6</td><td class="ticker"><b>HII</b></td><td>Industrials</td><td>151.2%</td><td>98.5</td><td>2.0%</td></tr>
+    <tr><td>7</td><td class="ticker"><b>APH</b></td><td>Information Technology</td><td>130.3%</td><td>97.7</td><td>2.0%</td></tr>
+    <tr><td>8</td><td class="ticker"><b>KLAC</b></td><td>Information Technology</td><td>142.5%</td><td>97.6</td><td>2.0%</td></tr>
+    <tr><td>9</td><td class="ticker"><b>GOOGL</b></td><td>Communication Services</td><td>101.5%</td><td>97.0</td><td>2.0%</td></tr>
+    <tr><td>10</td><td class="ticker"><b>GOOG</b></td><td>Communication Services</td><td>99.7%</td><td>96.8</td><td>2.0%</td></tr>
+    <tr><td>11</td><td class="ticker"><b>GLW</b></td><td>Information Technology</td><td>114.2%</td><td>96.8</td><td>2.0%</td></tr>
+    <tr><td>12</td><td class="ticker"><b>AMAT</b></td><td>Information Technology</td><td>119.6%</td><td>96.6</td><td>2.0%</td></tr>
+    <tr><td>13</td><td class="ticker"><b>GEV</b></td><td>Industrials</td><td>120.4%</td><td>96.2</td><td>2.0%</td></tr>
+    <tr><td>14</td><td class="ticker"><b>CHRW</b></td><td>Industrials</td><td>99.5%</td><td>95.9</td><td>2.0%</td></tr>
+    <tr><td>15</td><td class="ticker"><b>TER</b></td><td>Information Technology</td><td>132.2%</td><td>95.9</td><td>2.0%</td></tr>
+    <tr><td>16</td><td class="ticker"><b>PWR</b></td><td>Industrials</td><td>86.7%</td><td>95.2</td><td>2.0%</td></tr>
+    <tr><td>17</td><td class="ticker"><b>EME</b></td><td>Industrials</td><td>81.7%</td><td>94.0</td><td>2.0%</td></tr>
+    <tr><td>18</td><td class="ticker"><b>CAH</b></td><td>Health Care</td><td>67.8%</td><td>94.0</td><td>2.0%</td></tr>
+    <tr><td>19</td><td class="ticker"><b>ULTA</b></td><td>Consumer Discretionary</td><td>72.5%</td><td>93.4</td><td>2.0%</td></tr>
+    <tr><td>20</td><td class="ticker"><b>MPWR</b></td><td>Information Technology</td><td>95.8%</td><td>93.2</td><td>2.0%</td></tr>
+    <tr><td>21</td><td class="ticker"><b>MNST</b></td><td>Consumer Staples</td><td>54.2%</td><td>92.8</td><td>2.0%</td></tr>
+    <tr><td>22</td><td class="ticker"><b>CMI</b></td><td>Industrials</td><td>62.8%</td><td>92.5</td><td>2.0%</td></tr>
+    <tr><td>23</td><td class="ticker"><b>EA</b></td><td>Communication Services</td><td>56.9%</td><td>92.5</td><td>2.0%</td></tr>
+    <tr><td>24</td><td class="ticker"><b>HOOD</b></td><td>Financials</td><td>107.5%</td><td>92.3</td><td>2.0%</td></tr>
+    <tr><td>25</td><td class="ticker"><b>RTX</b></td><td>Industrials</td><td>55.2%</td><td>91.9</td><td>2.0%</td></tr>
+    <tr><td>26</td><td class="ticker"><b>FCX</b></td><td>Materials</td><td>76.5%</td><td>91.5</td><td>2.0%</td></tr>
+    <tr><td>27</td><td class="ticker"><b>NOC</b></td><td>Industrials</td><td>53.8%</td><td>91.2</td><td>2.0%</td></tr>
+    <tr><td>28</td><td class="ticker"><b>HCA</b></td><td>Health Care</td><td>51.5%</td><td>90.9</td><td>2.0%</td></tr>
+    <tr><td>29</td><td class="ticker"><b>HWM</b></td><td>Industrials</td><td>56.9%</td><td>90.7</td><td>2.0%</td></tr>
+    <tr><td>30</td><td class="ticker"><b>PLTR</b></td><td>Information Technology</td><td>79.1%</td><td>90.1</td><td>2.0%</td></tr>
+    <tr><td>31</td><td class="ticker"><b>CVNA</b></td><td>Consumer Discretionary</td><td>91.5%</td><td>90.0</td><td>2.0%</td></tr>
+    <tr><td>32</td><td class="ticker"><b>ROK</b></td><td>Industrials</td><td>51.9%</td><td>89.6</td><td>2.0%</td></tr>
+    <tr><td>33</td><td class="ticker"><b>JNJ</b></td><td>Health Care</td><td>41.9%</td><td>89.0</td><td>2.0%</td></tr>
+    <tr><td>34</td><td class="ticker"><b>NVDA</b></td><td>Information Technology</td><td>60.3%</td><td>89.0</td><td>2.0%</td></tr>
+    <tr><td>35</td><td class="ticker"><b>TEL</b></td><td>Information Technology</td><td>50.3%</td><td>88.8</td><td>2.0%</td></tr>
+    <tr><td>36</td><td class="ticker"><b>GE</b></td><td>Industrials</td><td>49.2%</td><td>88.8</td><td>2.0%</td></tr>
+    <tr><td>37</td><td class="ticker"><b>BK</b></td><td>Financials</td><td>42.8%</td><td>88.3</td><td>2.0%</td></tr>
+    <tr><td>38</td><td class="ticker"><b>LDOS</b></td><td>Industrials</td><td>45.8%</td><td>88.0</td><td>2.0%</td></tr>
+    <tr><td>39</td><td class="ticker"><b>GD</b></td><td>Industrials</td><td>41.8%</td><td>87.9</td><td>2.0%</td></tr>
+    <tr><td>40</td><td class="ticker"><b>PH</b></td><td>Industrials</td><td>45.9%</td><td>87.7</td><td>2.0%</td></tr>
+    <tr><td>41</td><td class="ticker"><b>ANET</b></td><td>Information Technology</td><td>61.8%</td><td>87.3</td><td>2.0%</td></tr>
+    <tr><td>42</td><td class="ticker"><b>JCI</b></td><td>Industrials</td><td>43.9%</td><td>87.2</td><td>2.0%</td></tr>
+    <tr><td>43</td><td class="ticker"><b>IDXX</b></td><td>Health Care</td><td>53.4%</td><td>86.7</td><td>2.0%</td></tr>
+    <tr><td>44</td><td class="ticker"><b>NTRS</b></td><td>Financials</td><td>41.9%</td><td>85.6</td><td>2.0%</td></tr>
+    <tr><td>45</td><td class="ticker"><b>MLM</b></td><td>Materials</td><td>36.2%</td><td>85.1</td><td>2.0%</td></tr>
+    <tr><td>46</td><td class="ticker"><b>ROST</b></td><td>Consumer Discretionary</td><td>36.6%</td><td>85.1</td><td>2.0%</td></tr>
+    <tr><td>47</td><td class="ticker"><b>STT</b></td><td>Financials</td><td>38.8%</td><td>84.6</td><td>2.0%</td></tr>
+    <tr><td>48</td><td class="ticker"><b>IBKR</b></td><td>Financials</td><td>49.5%</td><td>84.3</td><td>2.0%</td></tr>
+    <tr><td>49</td><td class="ticker"><b>FSLR</b></td><td>Information Technology</td><td>58.7%</td><td>83.6</td><td>2.0%</td></tr>
+    <tr><td>50</td><td class="ticker"><b>EXPD</b></td><td>Industrials</td><td>39.7%</td><td>83.3</td><td>2.0%</td></tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<div class="grid-3">
+  <div class="section">
+    <h2>Correlation vs Sleeves</h2>
+    <table><thead><tr><th>Sleeve</th><th>Corr</th><th></th></tr></thead><tbody>
+    <tr><td>CRDBX (SPY)</td><td class="score-low">0.734</td><td>REDUNDANT</td></tr>
+    <tr><td>Defensive (BTAL)</td><td class="score-high">-0.297</td><td>Diversifying</td></tr>
+    <tr><td>Intl Tactical (ACWX)</td><td class="score-low">0.672</td><td>REDUNDANT</td></tr>
+    <tr><td>Gold Digger (GLD)</td><td class="score-high">0.264</td><td>Diversifying</td></tr>
+    </tbody></table>
+  </div>
+  <div class="section">
+    <h2>Factor Contribution</h2>
+    <table><tbody>
+      <tr><td>Days in Momentum</td><td>580</td></tr>
+      <tr><td>Days in Low-Vol</td><td>798</td></tr>
+      <tr><td>Momentum Ann. Return</td><td class="score-high">40.47%</td></tr>
+      <tr><td>Low-Vol Ann. Return</td><td>1.88%</td></tr>
+      <tr><td>Switches/Year</td><td>16.4</td></tr>
+    </tbody></table>
+  </div>
+  <div class="section">
+    <h2>vs Benchmarks</h2>
+    <table><tbody>
+      <tr><td style="font-weight:600;">Strategy</td><td class="score-high">$227,370 (127.4%)</td></tr>
+      <tr><td>SPY</td><td>$210,143 (110.1%)</td></tr>
+      <tr><td>JMOM ETF</td><td>$209,672 (109.7%)</td></tr>
+      <tr><td>SPLV ETF</td><td>$158,450 (58.5%)</td></tr>
+    </tbody></table>
+  </div>
+</div>
+
+<div class="section">
+  <h2>TradingView Paste (MOMENTUM portfolio)</h2>
+  <div class="tv-box">WDC, MU, LRCX, NEM, FIX, HII, APH, KLAC, GOOGL, GOOG, GLW, AMAT, GEV, CHRW, TER, PWR, EME, CAH, ULTA, MPWR, MNST, CMI, EA, HOOD, RTX, FCX, NOC, HCA, HWM, PLTR, CVNA, ROK, JNJ, NVDA, TEL, GE, BK, LDOS, GD, PH, ANET, JCI, IDXX, NTRS, MLM, ROST, STT, IBKR, FSLR, EXPD</div>
+</div>
+
+<div class="meta">
+  Penta Factor Rotation (Momentum / Low-Vol) | 1114x Stocks Sleeve | Potomac Fund Management | 2026-03-07 21:25
+</div>
+
+</body>
+</html>
