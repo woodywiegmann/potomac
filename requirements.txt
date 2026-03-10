@@ -1,0 +1,13 @@
+yfinance
+pandas
+pandas-datareader
+numpy
+python-docx
+scipy
+openpyxl
+requests
+pyyaml
+openai
+anthropic
+elevenlabs
+flask
