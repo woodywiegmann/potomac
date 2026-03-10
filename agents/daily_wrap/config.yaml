@@ -1,0 +1,101 @@
+# Daily Wrap Agent Configuration
+# ================================
+
+# OpenAI API (or Anthropic -- switch provider below)
+llm:
+  provider: "openai"         # "openai" or "anthropic"
+  model: "gpt-4o"            # or "claude-sonnet-4-20250514"
+  temperature: 0.7
+  max_tokens: 2000
+
+# Market data tickers
+market_data:
+  indices:
+    - ticker: "^GSPC"
+      name: "S&P 500"
+    - ticker: "^NDX"
+      name: "Nasdaq 100"
+    - ticker: "^RUT"
+      name: "Russell 2000"
+    - ticker: "^DJI"
+      name: "Dow Jones"
+
+  risk_gauges:
+    - ticker: "^VIX"
+      name: "VIX"
+    - ticker: "^TNX"
+      name: "10Y Yield"
+    - ticker: "^TYX"
+      name: "30Y Yield"
+    - ticker: "^IRX"
+      name: "13-Week T-Bill"
+
+  commodities:
+    - ticker: "GC=F"
+      name: "Gold"
+    - ticker: "SI=F"
+      name: "Silver"
+    - ticker: "CL=F"
+      name: "Crude Oil"
+
+  international:
+    - ticker: "EFA"
+      name: "EAFE (Developed Intl)"
+    - ticker: "EEM"
+      name: "EM (Emerging)"
+    - ticker: "ACWX"
+      name: "All-World ex-US"
+
+  sectors:
+    - ticker: "XLK"
+      name: "Tech"
+    - ticker: "XLF"
+      name: "Financials"
+    - ticker: "XLE"
+      name: "Energy"
+    - ticker: "XLV"
+      name: "Healthcare"
+    - ticker: "XLI"
+      name: "Industrials"
+    - ticker: "XLRE"
+      name: "Real Estate"
+    - ticker: "XLU"
+      name: "Utilities"
+    - ticker: "XLP"
+      name: "Staples"
+    - ticker: "XLY"
+      name: "Discretionary"
+    - ticker: "XLB"
+      name: "Materials"
+    - ticker: "XLC"
+      name: "Comm Services"
+
+  sleeve_proxies:
+    - ticker: "SPY"
+      name: "CRDBX Proxy (S&P 500)"
+    - ticker: "DBMF"
+      name: "CTA/Trend Proxy"
+    - ticker: "GLD"
+      name: "Gold Digger Proxy"
+    - ticker: "BTAL"
+      name: "Defensive Proxy (Anti-Beta)"
+
+  breadth:
+    - ticker: "^GSPC"
+      name: "S&P 500 (for breadth calc)"
+
+# Output settings
+output:
+  directory: "output"
+  filename_format: "daily_wrap_{date}.md"
+  also_save_html: false
+
+# Voice clone integration (optional)
+voice_clone:
+  enabled: false
+  service_url: "http://localhost:8100/synthesize"
+
+# Schedule (for reference -- use Windows Task Scheduler to invoke)
+schedule:
+  run_at: "06:30"
+  timezone: "America/New_York"
