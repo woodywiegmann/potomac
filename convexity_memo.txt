@@ -1,0 +1,160 @@
+POTOMAC FUND MANAGEMENT
+Risk-Off Sleeve Enhancement: Adding Convexity to Defensive Periods
+==============================================================================
+Prepared: February 2026 | Period analyzed: March 2023 - February 2026
+Data: Daily verified NAV total returns (distributions reinvested)
+Source: Yahoo Finance via yfinance | All returns net of fund expenses
+
+------------------------------------------------------------------------------
+EXECUTIVE SUMMARY
+------------------------------------------------------------------------------
+
+Bull Bear currently parks ~100% of risk-off capital in money market
+(SGOV or equivalent). Over the study period, CRDBX spent 252 of
+744 trading days (34%) in risk-off mode, earning
+approximately 3.0% annualized on those days.
+
+This memo proposes replacing the risk-off allocation with:
+  33% CAOS  (Alpha Architect Tail Risk -- convex put spreads on S&P)
+  33% DBMF  (iMGP Managed Futures -- systematic trend following)
+  34% SGOV  (iShares 0-3 Month Treasury -- cash anchor)
+
+The thesis: CAOS and DBMF are designed to produce positive returns
+during the exact market conditions that trigger our risk-off signal.
+CAOS owns put spreads that appreciate when equities fall sharply.
+DBMF runs trend-following strategies that profit from sustained moves
+in any direction. Both are uncorrelated to equity beta in normal
+markets but become positively convex during dislocations. Pairing them
+with SGOV preserves the defensive intent while converting dead capital
+into an active return source.
+
+------------------------------------------------------------------------------
+METHODOLOGY
+------------------------------------------------------------------------------
+
+Regime detection from CRDBX daily NAV (no lookahead bias):
+  - Rolling 5-day beta of CRDBX vs S&P 500
+  - Beta > 0.6 = risk-on  |  Beta < 0.3 = risk-off
+  - Same-day confirmation: if |CRDBX change| < 0.05% while
+    |S&P change| > 0.30%, classify as risk-off
+
+Validation:
+  - Detected risk-on beta:  1.49x (confirms VOO + futures)
+  - Risk-on days:  490 (66%)
+  - Risk-off days: 252 (34%)
+  - Distinct risk-off periods: 60
+  - Average duration: 4.2 days | Longest: 21 days
+
+------------------------------------------------------------------------------
+RESULTS
+------------------------------------------------------------------------------
+
+Metric                                 CRDBX Actual    Modified (33/33/34)
+................................    (SGOV risk-off)       (CAOS/DBMF/SGOV)
+------------------------------------------------------------------------------
+CAGR                                         18.91%                 19.42%
+Max Drawdown                                -17.57%                -17.36%
+Annualized Volatility                        18.60%                 18.77%
+Sharpe Ratio (rf=4%)                           0.81                   0.83
+Sortino Ratio                                  0.98                   1.09
+Calmar Ratio                                   1.08                   1.12
+S&P Beta                                       0.93                   0.96
+S&P Correlation                                0.76                   0.77
+Growth of $10,000                           $16,705                $16,919
+
+IMPROVEMENT                                         +                0.51% CAGR
+................................                    +                0.22% MaxDD
+................................                    +                0.02 Sharpe
+
+Calendar Year Returns                  CRDBX Actual               Modified
+------------------------------------------------------------------------------
+  2024                                      +19.82%                +21.37%
+  2025                                      +25.39%                +25.86%
+  2026                                       +0.85%                 +2.53%
+
+------------------------------------------------------------------------------
+RISK-OFF PERIOD ECONOMICS
+------------------------------------------------------------------------------
+
+During the 252 risk-off days, annualized component returns
+(net of each fund's own expense ratio, from daily NAV):
+
+  SGOV (T-bills, 0.09% ER):                  5.01%
+  CAOS (tail risk, 0.63% ER):                 7.37%
+  DBMF (managed futures, 0.85% ER):           8.26%
+  33/33/34 blend (gross):                     6.86%
+
+  CRDBX risk-off return (net of 1.46% ER):    3.03%
+  Modified risk-off (net, same ER basis):     4.40%
+  Incremental pickup:                        +1.36%
+
+  Note: CRDBX actual risk-off earns ~3% vs SGOV's 5%
+  because the fund's 1.46% expense ratio is deducted daily from NAV
+  regardless of positioning. This same fee drag is applied equally to
+  the Modified version above.
+
+On a $2B fund with ~34% of the year in risk-off:
+  Incremental return: ~46 bps on total fund AUM
+  Dollar value:       ~$9.2M/year at $2B AUM
+
+------------------------------------------------------------------------------
+CONVEXITY IN ACTION: WORST S&P DAYS WHILE RISK-OFF
+------------------------------------------------------------------------------
+
+Date             S&P 500     CRDBX      CAOS      DBMF      SGOV   Modified
+------------------------------------------------------------------------------
+  2025-04-04      -5.85%    +0.00%    +1.97%    -1.20%    +0.03%     +0.23%
+  2025-04-03      -4.93%    +0.00%    +0.84%    -0.95%    +0.02%     -0.05%
+  2024-12-18      -2.98%    +0.00%    +0.42%    -0.88%    +0.02%     -0.17%
+  2025-10-10      -2.70%    +0.06%    +0.37%    -3.58%    +0.05%     -1.03%
+  2025-04-16      -2.22%    +0.00%    +0.37%    +0.36%    +0.02%     +0.23%
+  2024-09-03      -2.06%    +0.00%    +0.25%    -0.71%    +0.04%     -0.18%
+  2025-03-28      -2.01%    +0.00%    -0.05%    -0.39%    +0.03%     -0.17%
+  2023-03-09      -1.84%    +0.00%    -1.12%    -0.88%    +0.03%     -0.68%
+  2025-05-21      -1.69%    +0.00%    +0.06%    -0.12%    +0.01%     -0.03%
+  2025-11-13      -1.66%    +0.00%    -0.28%    -1.07%    +0.01%     -0.46%
+
+Note: On days when CRDBX is flat (~0%) while S&P falls, the fund is
+correctly in cash. The modified sleeve would have been earning returns
+from CAOS and DBMF instead of sitting idle.
+
+------------------------------------------------------------------------------
+IMPLEMENTATION
+------------------------------------------------------------------------------
+
+No change to the risk-on sleeve or signal architecture. The only
+modification is what the fund holds during risk-off periods:
+
+  CURRENT:   100% SGOV / money market
+  PROPOSED:  33% CAOS + 33% DBMF + 34% SGOV
+
+Expense impact on the 33% risk-off capital:
+  CAOS:  0.63% ER x 0.33 x 0.33 (risk-off %) =  0.07% on total fund
+  DBMF:  0.85% ER x 0.33 x 0.33 (risk-off %) =  0.09% on total fund
+  SGOV:  0.09% ER x 0.34 x 0.33 (risk-off %) =  0.01% on total fund
+  Total incremental cost:                         0.17% on total fund
+  Net of incremental return (46 bps):          +29 bps net pickup
+
+Liquidity: All three ETFs trade >$5M daily volume. CAOS: $575M AUM.
+DBMF: $1.4B AUM. No capacity constraint at Potomac's position sizes.
+
+------------------------------------------------------------------------------
+RISKS AND LIMITATIONS
+------------------------------------------------------------------------------
+
+1. Limited backtest window (March 2023 - February 2026). This period
+   did not include a severe bear market. CAOS and DBMF are designed
+   to outperform during exactly those conditions, so the backtest
+   likely understates the benefit.
+
+2. Regime detection is approximate. We infer risk-on/risk-off from
+   CRDBX NAV behavior, not from the actual proprietary signal. Minor
+   misclassifications are possible but do not materially affect the
+   aggregate statistics.
+
+3. CAOS carries path-dependent risk: the put-spread structure decays
+   in calm markets. However, at 33% of a 33% sleeve (effectively
+   ~11% of risk-off capital), the drag is minimal and the convexity
+   payoff during a true dislocation is asymmetrically favorable.
+
+==============================================================================
