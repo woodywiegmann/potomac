@@ -1,0 +1,60 @@
+=================================================================================================================================================
+HEAD TO HEAD: RISK-OFF DAYS (STRICT FILTER)
+=================================================================================================================================================
+Period: 2023-03-06 to 2026-02-20
+Total trading days:   744
+Risk-off days:        173  (23.3%)
+Risk-on days:         371  (49.9%)
+Distribution dates:   17  (excluded)
+Ambiguous days:       183  (SPY < 0.15% or CRDBX not clearly flat)
+
+Filter criteria:
+  Risk-off = |CRDBX daily return| < 0.03%  AND  |S&P| >= 0.15%
+  Distribution dates +/- 1 day excluded
+  Days where S&P moved < 0.15% = ambiguous, not counted
+
+Regime validation:
+  Risk-on  beta (CRDBX vs S&P): 1.57x
+  Risk-off beta (CRDBX vs S&P): 0.0000x
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+..........................          CRDBX       EqWt 3-way            50/50      30C/10D/60S      15H/15D/70S       Custom Mix
+.......................... (SGOV imputed)   DBMF/CAOS/SGOV        SGOV/CAOS       CAOS-heavy       HEQT blend  10U/20C/40S/30D
+-------------------------------------------------------------------------------------------------------------------------------------------------
+Avg daily return..........       +0.0207%         +0.0333%         +0.0268%         +0.0269%         +0.0314%         +0.0342%
+Median daily return.......       +0.0199%         +0.0514%         +0.0194%         +0.0318%         +0.0483%         +0.0613%
+Annualized (daily x 252)..         +5.21%           +8.39%           +6.74%           +6.78%           +7.92%           +8.62%
+Geometric (compounded)....         +3.64%           +5.85%           +4.71%           +4.75%           +5.56%           +6.03%
+Ann. volatility...........          0.24%            4.48%            2.56%            2.05%            2.55%            4.27%
+Beta to S&P...............         0.0005           0.0716           0.0022           0.0225           0.1015           0.1204
+Best single day...........         +0.07%           +1.06%           +1.00%           +0.49%           +0.70%           +1.09%
+Days positive.............            149              104              107              114              109              112
+Days negative.............              1               69               66               59               64               61
+Days flat (< 0.005%)......             23                3               13               10                7                4
+
+Incremental geometric.....             --           +2.21%           +1.07%           +1.10%           +1.92%           +2.38%
+Incremental annualized....             --           +3.17%           +1.53%           +1.56%           +2.70%           +3.40%
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+Blend key:
+  EqWt 3-way    = 33% DBMF + 33% CAOS + 34% SGOV
+  50/50         = 50% SGOV + 50% CAOS
+  30C/10D/60S   = 30% CAOS + 10% DBMF + 60% SGOV
+  15H/15D/70S   = 15% HEQT + 15% DBMF + 70% SGOV
+  Custom Mix    = 10% USMV + 20% CAOS + 40% SGOV + 30% DBMF
+-------------------------------------------------------------------------------------------------------------------------------------------------
+ASSUMPTION NOTE
+-------------------------------------------------------------------------------------------------------------------------------------------------
+CRDBX column uses SGOV daily returns as a proxy for money market
+income. CRDBX's NAV is reported to two decimal places (~$14/share),
+so daily money market accrual (~$0.003/share at 5% annual) is below
+the rounding threshold and appears as 0.0000% on any single day.
+Imputing SGOV's actual daily return gives a fair baseline that
+reflects the ~5% annualized yield the fund is earning on its cash
+position, net of SGOV's 0.09% expense ratio.
+
+CAOS and DBMF returns are actual daily NAV total returns from Yahoo
+Finance, net of each fund's own expense ratio (CAOS 0.63%, DBMF
+0.85%). No additional fee adjustment is applied.
+
+=================================================================================================================================================
