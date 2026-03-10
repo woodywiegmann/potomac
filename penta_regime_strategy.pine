@@ -1,0 +1,112 @@
+// Penta Regime Strategy (Proxy Signals)
+// ========================================
+// Tests the risk-on/risk-off timing signal on SPY.
+// Risk-On: Long SPY | Risk-Off: Flat (cash)
+// Apply to SPY daily chart, check Strategy Tester tab.
+//
+// Signals:
+//   1. SPY > 200-day SMA
+//   2. VIX < 20
+//   3. 10Y yield 50-day ROC < 0 (falling rates = bullish)
+//   4. Credit: LQD/SHY ratio > 50-day SMA
+// Decision: 3 of 4 bullish = RISK ON
+
+//@version=6
+strategy("Penta Regime Strategy", overlay=true, default_qty_type=strategy.percent_of_equity,
+         default_qty_value=100, commission_type=strategy.commission.percent,
+         commission_value=0.10, initial_capital=100000)
+
+// ── Inputs ───────────────────────────────────────────────────
+smaLen       = input.int(200, "SMA Length", minval=50)
+vixThresh    = input.float(20.0, "VIX Threshold")
+yieldRocLen  = input.int(50, "10Y Yield ROC Length")
+creditSmaLen = input.int(50, "Credit Ratio SMA Length")
+bullishReq   = input.int(3, "Bullish Signals Required", minval=1, maxval=4)
+
+// ── Signal 1: SPY > 200-day SMA ─────────────────────────────
+sma200 = ta.sma(close, smaLen)
+sig1_bullish = close > sma200
+sig1_value = (close / sma200 - 1) * 100
+
+// ── Signal 2: VIX < 20 ──────────────────────────────────────
+vixClose = request.security("CBOE:VIX", timeframe.period, close)
+sig2_bullish = vixClose < vixThresh
+sig2_value = vixClose
+
+// ── Signal 3: 10Y Yield 50-day ROC < 0 ──────────────────────
+yieldClose = request.security("TVC:US10Y", timeframe.period, close)
+yieldRoc = (yieldClose - yieldClose[yieldRocLen]) / yieldClose[yieldRocLen] * 100
+sig3_bullish = yieldRoc < 0
+sig3_value = yieldRoc
+
+// ── Signal 4: Credit (LQD/SHY ratio > 50d SMA) ──────────────
+lqdClose = request.security("NASDAQ:LQD", timeframe.period, close)
+shyClose = request.security("NASDAQ:SHY", timeframe.period, close)
+creditRatio = shyClose > 0 ? lqdClose / shyClose : 0
+creditSma = ta.sma(creditRatio, creditSmaLen)
+sig4_bullish = creditRatio > creditSma
+sig4_value = (creditRatio / creditSma - 1) * 100
+
+// ── Composite Regime ─────────────────────────────────────────
+bullishCount = (sig1_bullish ? 1 : 0) + (sig2_bullish ? 1 : 0) +
+               (sig3_bullish ? 1 : 0) + (sig4_bullish ? 1 : 0)
+riskOn = bullishCount >= bullishReq
+
+// ── Strategy Execution ───────────────────────────────────────
+if riskOn and strategy.position_size == 0
+    strategy.entry("Long", strategy.long)
+
+if not riskOn and strategy.position_size > 0
+    strategy.close("Long")
+
+// ── Visuals ──────────────────────────────────────────────────
+bgcolor(riskOn ? color.new(color.green, 92) : color.new(color.red, 92))
+plot(sma200, "200d SMA", color=color.orange, linewidth=2)
+
+// ── Signal Dashboard Table ───────────────────────────────────
+var table sigTable = table.new(position.top_right, 3, 7,
+     bgcolor=color.new(color.black, 30), border_width=1,
+     border_color=color.gray)
+
+if barstate.islast
+    table.cell(sigTable, 0, 0, "PENTA REGIME", text_color=color.white,
+               text_size=size.normal, bgcolor=color.new(color.navy, 20))
+    table.cell(sigTable, 1, 0, riskOn ? "RISK ON" : "RISK OFF",
+               text_color=riskOn ? color.lime : color.red,
+               text_size=size.normal,
+               bgcolor=riskOn ? color.new(color.green, 80) : color.new(color.red, 80))
+    table.cell(sigTable, 2, 0, str.tostring(bullishCount) + "/4",
+               text_color=color.white, text_size=size.normal)
+
+    table.cell(sigTable, 0, 1, "Signal", text_color=color.gray, text_size=size.small)
+    table.cell(sigTable, 1, 1, "Value", text_color=color.gray, text_size=size.small)
+    table.cell(sigTable, 2, 1, "Status", text_color=color.gray, text_size=size.small)
+
+    table.cell(sigTable, 0, 2, "SPY > 200d SMA", text_color=color.white, text_size=size.small)
+    table.cell(sigTable, 1, 2, str.tostring(sig1_value, "#.1") + "%",
+               text_color=color.white, text_size=size.small)
+    table.cell(sigTable, 2, 2, sig1_bullish ? "BULL" : "BEAR",
+               text_color=sig1_bullish ? color.lime : color.red, text_size=size.small)
+
+    table.cell(sigTable, 0, 3, "VIX < " + str.tostring(vixThresh),
+               text_color=color.white, text_size=size.small)
+    table.cell(sigTable, 1, 3, str.tostring(sig2_value, "#.1"),
+               text_color=color.white, text_size=size.small)
+    table.cell(sigTable, 2, 3, sig2_bullish ? "BULL" : "BEAR",
+               text_color=sig2_bullish ? color.lime : color.red, text_size=size.small)
+
+    table.cell(sigTable, 0, 4, "10Y ROC < 0", text_color=color.white, text_size=size.small)
+    table.cell(sigTable, 1, 4, str.tostring(sig3_value, "#.2") + "%",
+               text_color=color.white, text_size=size.small)
+    table.cell(sigTable, 2, 4, sig3_bullish ? "BULL" : "BEAR",
+               text_color=sig3_bullish ? color.lime : color.red, text_size=size.small)
+
+    table.cell(sigTable, 0, 5, "Credit LQD/SHY", text_color=color.white, text_size=size.small)
+    table.cell(sigTable, 1, 5, str.tostring(sig4_value, "#.2") + "%",
+               text_color=color.white, text_size=size.small)
+    table.cell(sigTable, 2, 5, sig4_bullish ? "BULL" : "BEAR",
+               text_color=sig4_bullish ? color.lime : color.red, text_size=size.small)
+
+    table.cell(sigTable, 0, 6, "Regime", text_color=color.gray, text_size=size.tiny)
+    table.cell(sigTable, 1, 6, "3/4 bullish = ON", text_color=color.gray, text_size=size.tiny)
+    table.cell(sigTable, 2, 6, "Proxy sigs", text_color=color.gray, text_size=size.tiny)
