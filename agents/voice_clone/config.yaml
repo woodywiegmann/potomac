@@ -1,0 +1,34 @@
+# Voice Clone Agent Configuration
+# =================================
+
+# ElevenLabs API (primary)
+elevenlabs:
+  # Set ELEVENLABS_API_KEY environment variable
+  voice_id: ""              # Fill after creating voice clone on ElevenLabs
+  model_id: "eleven_multilingual_v2"
+  stability: 0.5            # 0.0 = more variable, 1.0 = more stable
+  similarity_boost: 0.75    # Higher = closer to original voice
+  style: 0.5                # Style exaggeration (v2 models only)
+  use_speaker_boost: true
+
+# Output settings
+output:
+  directory: "output"
+  default_format: "mp3"     # mp3, wav, ogg
+  sample_rate: 44100
+
+# HTTP server settings (for other agents to call)
+server:
+  host: "127.0.0.1"
+  port: 8100
+  enabled: false            # Set true to run as a local service
+
+# Audio sample collection
+training:
+  samples_directory: "../style_corpus/samples/audio"
+  min_minutes: 30
+  target_minutes: 60
+  notes: >
+    Download audio from Dropbox: https://www.dropbox.com/t/riyUu6X4RvoCEGsE
+    Courage Over Convention podcast episodes are ideal source material.
+    Clean audio, minimal background noise, varied intonation.
