@@ -1,0 +1,72 @@
+Woody Trade Concepts -- Proposed for Testing -- February 2026
+=============================================================
+
+
+IDEA 1: Replace ARKK with QQQJ in CRTOX
+----------------------------------------
+
+ARKK's discretionary management adds uncontrolled variance to
+CRTOX's signal-driven framework. QQQJ (Nasdaq Next Gen 100,
+passive, 0.15% ER) removes manager drift.
+
+2023-2025 on CRTOX's actual trade windows: ARKK avg -1.93%/trade
+vs QQQ +1.75%/trade = 3.68% per-trade swing from manager selection
+alone. QQQ won 8 of 13 trades.
+
+Cost savings: 60bp ER reduction (0.75% to 0.15%). Same signals,
+same entry/exit dates. No indicator changes required.
+
+
+IDEA 2: Risk-Off Convexity Enhancement
+--------------------------------------
+
+Replace 100% SGOV during risk-off with instruments that profit from
+the conditions triggering our defensive posture. CAOS (tail-risk
+puts) + DBMF (trend-following) + SGOV (cash anchor). No signal
+changes -- only what the fund holds while waiting.
+
+173 verified risk-off days (Mar 2023 - Feb 2026):
+
+                    SGOV        50/50       EqWt
+                  (current)   SGOV/CAOS    3-Way
+  -------------------------------------------------
+  Annualized       +5.21%      +6.74%     +8.39%
+  Geometric        +3.64%      +4.71%     +5.85%
+  Volatility        0.24%       2.56%      4.48%
+  Beta to S&P      0.0005       0.002      0.07
+  Incremental         --       +1.07%     +2.21%
+
+
+IDEA 3: Systematic TLH on Sector Rotations
+-------------------------------------------
+
+CRTOX runs equal-weight sector sleeves (~7-10% each in SIL, XME,
+SMH, IBB, ITA, ILF, etc.) with 2,274% annual turnover. Each
+rotation creates short-term unrealized losses that can be harvested
+by selling loss lots and immediately swapping to a substantially
+non-identical ETF in the same sector.
+
+Current holdings show $5M+ in harvestable losses:
+
+  Ticker    Unreal Loss    Swap To          Same Sector
+  -------------------------------------------------------
+  SIL       -$2.80M        SILJ / SLVP      Silver miners
+  XME       -$1.22M        PICK / GNR       Metals & mining
+  ARKK      -$993K         QQQJ / QQQ       Growth / innovation
+  ILF       -$656K         EWZ + EWW        Latin America
+  SMH       -$489K         SOXX / XSD       Semiconductors
+  IBB/ITA   -$229K         XBI / PPA        Biotech / Aerospace
+
+Implementation: On each signal-driven rotation, screen exiting lots
+for unrealized losses. Sell loss lots first, immediately buy the swap
+ETF to maintain exposure. Track wash sale windows (30 days)
+cross-account. At this turnover rate, every rotation is a TLH
+opportunity. Estimated annual value: 50-100bps of tax alpha.
+
+
+=============================================================
+Bottom line: All three ideas are instrument swaps and process
+improvements, not signal changes. Same architecture, cleaner
+execution, lower costs, and risk-off capital that works instead
+of sitting idle.
+=============================================================
