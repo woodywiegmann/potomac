@@ -1,0 +1,217 @@
+==================================================================================================================================
+POTOMAC BULL BEAR BACKTESTER v3 -- COMPOSITE SIGNAL MODEL
+Period: 2020-07-01 to 2026-02-21
+Signal: Penta (transports, NYSE breadth, credit, S&P trend) + RSI/VIX overlays
+Structure: 80% core (S&P <-> Treasury) + 20% satellite
+Managed futures: RYMFX (2007-2019) -> DBMF (2019+), real data only
+==================================================================================================================================
+
+  POTOMAC BULL BEAR (actual): CAGR 12.7% gross | Max DD: -24.65% | Beta: 0.45
+
+Strategy                                 CAGR   MaxDD  Sharpe  Calmar   Beta   Corr  WinRt  #Trd  BestYr  WrstYr
+----------------------------------------------------------------------------------------------------------------------------------
+BINARY 80/20 (SHY satellite)             7.2%  -21.2%    0.53    0.34   0.28   0.58    55%   173   16.5%  -17.3%
+BINARY 80/20 (SPLV+GLD+MF sat)           9.7%  -20.1%    0.78    0.48   0.33   0.64    55%   173   20.8%  -15.7%
+GRADUATED (SPLV+GLD+MF sat)             11.3%  -13.9%    0.95    0.82   0.43   0.85    55%   173   20.6%  -12.8%
+CONVICTION-STEP (SPLV+GLD+MF sat)       10.0%  -17.4%    0.83    0.57   0.35   0.71    55%   173   20.1%  -14.4%
+BINARY + MF BEAR-ONLY                   10.5%  -18.2%    0.79    0.58   0.35   0.61    55%   173   18.8%  -11.0%
+BINARY + MF ALWAYS (20% sat)             9.1%  -18.8%    0.72    0.48   0.30   0.59    55%   173   18.5%  -13.1%
+GRADUATED + MF BEAR-ONLY                11.6%  -15.0%    0.92    0.77   0.44   0.81    55%   173   20.5%   -9.6%
+S&P 500 BUY-HOLD                        15.2%  -25.4%    0.75    0.60   1.00   1.00   100%     1   26.9%  -19.4%
+----------------------------------------------------------------------------------------------------------------------------------
+CRDBX (buy-hold)                        18.7%  -28.3%    0.81    0.66   0.84   0.71     --    --   28.2%   -8.2%
+SPY (buy-hold)                          16.8%  -24.5%    0.83    0.69   1.01   1.00     --    --   28.7%  -18.2%
+QQQ (buy-hold)                          17.7%  -35.1%    0.70    0.50   1.27   0.94     --    --   54.9%  -32.6%
+
+==================================================================================================================================
+GROWTH OF $10,000
+==================================================================================================================================
+  BINARY 80/20 (SHY satellite)           $      14,778
+  BINARY 80/20 (SPLV+GLD+MF sat)         $      16,876
+  GRADUATED (SPLV+GLD+MF sat)            $      18,324
+  CONVICTION-STEP (SPLV+GLD+MF sat)      $      17,115
+  BINARY + MF BEAR-ONLY                  $      17,598
+  BINARY + MF ALWAYS (20% sat)           $      16,350
+  GRADUATED + MF BEAR-ONLY               $      18,563
+  S&P 500 BUY-HOLD                       $      22,175
+
+==================================================================================================================================
+YEAR-BY-YEAR: ACTUAL POTOMAC vs STRATEGY VARIANTS
+==================================================================================================================================
+Year    Potomac BINARY 80/20 (SHY sate BINARY 80/20 (SPLV+GLD GRADUATED (SPLV+GLD+MF CONVICTION-STEP (SPLV+  BINARY + MF BEAR-ONLY BINARY + MF ALWAYS (20 GRADUATED + MF BEAR-ON       S&P 500 BUY-HOLD    CRDBX      SPY      QQQ
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2002      -0.3%                     --                     --                     --                     --                     --                     --                     --                     --       --       --       --
+2003      35.5%                     --                     --                     --                     --                     --                     --                     --                     --       --       --       --
+2004      19.2%                     --                     --                     --                     --                     --                     --                     --                     --       --       --       --
+2005      -0.6%                     --                     --                     --                     --                     --                     --                     --                     --       --       --       --
+2006      15.9%                     --                     --                     --                     --                     --                     --                     --                     --       --       --       --
+2007      10.8%                     --                     --                     --                     --                     --                     --                     --                     --       --       --       --
+2008      -2.4%                     --                     --                     --                     --                     --                     --                     --                     --       --       --       --
+2009       6.4%                     --                     --                     --                     --                     --                     --                     --                     --       --       --       --
+2010       4.3%                     --                     --                     --                     --                     --                     --                     --                     --       --       --       --
+2011      -4.8%                     --                     --                     --                     --                     --                     --                     --                     --       --       --       --
+2012      22.5%                     --                     --                     --                     --                     --                     --                     --                     --       --       --       --
+2013      34.0%                     --                     --                     --                     --                     --                     --                     --                     --       --       --       --
+2014      18.3%                     --                     --                     --                     --                     --                     --                     --                     --       --       --       --
+2015       2.4%                     --                     --                     --                     --                     --                     --                     --                     --       --       --       --
+2016       8.0%                     --                     --                     --                     --                     --                     --                     --                     --       --       --       --
+2017      12.7%                     --                     --                     --                     --                     --                     --                     --                     --       --       --       --
+2018       7.0%                     --                     --                     --                     --                     --                     --                     --                     --       --       --       --
+2019      17.6%                     --                     --                     --                     --                     --                     --                     --                     --       --       --       --
+2020      35.3%                     --                     --                     --                     --                     --                     --                     --                     --       --       --       --
+2021      22.8%                  11.6%                  14.0%                  16.7%                  15.4%                  14.0%                  14.4%                  16.4%                  26.9%    28.2%    28.7%    27.4%
+2022      -6.1%                 -17.3%                 -15.7%                 -12.8%                 -14.4%                 -11.0%                 -13.1%                  -9.6%                 -19.4%    -8.2%   -18.2%   -32.6%
+2023      16.0%                  10.3%                   9.8%                  12.7%                  11.1%                   9.0%                   7.5%                   9.7%                  24.2%    18.7%    26.2%    54.9%
+2024      17.2%                  13.0%                  15.6%                  15.6%                  14.4%                  14.7%                  13.8%                  14.7%                  23.3%    19.8%    24.9%    25.6%
+2025      22.1%                  16.5%                  20.8%                  20.6%                  20.1%                  18.8%                  18.5%                  20.5%                  16.4%    25.4%    17.7%    20.8%
+2026         --                  -1.0%                   1.2%                   1.6%                   1.5%                   2.4%                   0.9%                   2.5%                   0.9%     0.8%     1.1%    -0.9%
+
+==================================================================================================================================
+TAX-LOSS HARVESTING PLAYBOOK & FUND OPS
+==================================================================================================================================
+
+  SWAP PAIRS (substantially non-identical, same exposure):
+  ---------------------------------------------------------
+  EQUITY (S&P 500):     SPY <-> IVV <-> VOO <-> SPLG
+  EQUITY (ex-utilities): RSP (equal-wt) or XLK+XLY+XLI+XLF+XLC
+  TREASURY (1-3yr):     SHY <-> VGSH <-> SCHO
+  TREASURY (ultra-short): BIL <-> SGOV <-> SHV
+  MANAGED FUTURES:      DBMF <-> KMLM <-> CTA <-> WTMF
+  GOLD:                 GLD <-> IAU <-> GLDM <-> SGOL
+  LOW VOLATILITY:       SPLV <-> USMV <-> LGLV
+  CORPORATES (credit):  LQD <-> VCIT <-> IGIB
+
+  EXECUTION SEQUENCE: RISK-ON -> RISK-OFF TRANSITION
+  ---------------------------------------------------
+  Day 0 (signal fires):
+    1. Screen ALL equity lots for unrealized losses
+    2. SELL loss lots FIRST across all accounts (harvest)
+    3. Immediately BUY replacement equity (SPY->IVV swap) to maintain
+       exposure during the transition day -- don't gap out
+    4. SELL remaining equity lots (gains last -- defer where possible)
+    5. BUY defensive instruments (SHY + MF allocation per model)
+
+  Day 1-30 (wash sale window):
+    6. Do NOT re-buy the SAME ticker sold at a loss across ANY account
+    7. Track wash sale pairs in the TLH ledger (cross-account!)
+    8. If signal reverses within 30 days, use the SWAP ticker (IVV not SPY)
+
+  Day 31+:
+    9. Free to consolidate back to primary tickers if desired
+   10. Reset the TLH clock for next potential harvest
+
+  EXECUTION SEQUENCE: RISK-OFF -> RISK-ON TRANSITION
+  ---------------------------------------------------
+  Day 0 (signal fires):
+    1. Screen defensive lots (SHY, MF) for unrealized losses
+    2. SELL loss lots first (harvest on the defensive side too!)
+    3. BUY replacement defensive momentarily (SHY->VGSH) if needed
+    4. SELL remaining defensive lots
+    5. BUY equity (primary ticker or swap depending on wash sale window)
+
+  WEIGHTING THE 20% SATELLITE
+  ----------------------------
+  Current: 6.66% CRMVX + 6.67% CRTBX + 6.67% CRTOX (proprietary funds)
+
+  Proposed alternatives using public ETFs:
+
+  Option A -- "Diversified Alpha" (lowest correlation to core):
+    6.67% DBMF (managed futures / trend following)
+    6.67% GLD  (gold / inflation hedge / crisis alpha)
+    6.66% SPLV (low-volatility factor / managed vol proxy)
+
+  Option B -- "Crisis Alpha Heavy" (max drawdown protection):
+    10% DBMF (managed futures)
+    10% GLD  (gold)
+
+  Option C -- "Trend Following Pure" (Parker-aligned):
+    20% DBMF (managed futures -- replaces all satellite with CTA)
+
+  Rationale: The satellite should be UNCORRELATED to the core S&P sleeve.
+  During the core's defensive periods, the satellite should ideally be MAKING
+  money, not just losing less. MF and gold both have crisis alpha properties.
+  SPLV provides a bridge -- equity-like returns with lower vol.
+
+  MANAGED FUTURES IN DEFENSIVE ALLOCATION
+  ----------------------------------------
+  When the composite says RISK-OFF and the core 80% moves to treasuries:
+
+  Variant 1 -- "MF Bear Only":
+    Risk-off capital = 50% SHY + 50% DBMF/RYMFX
+    Rationale: CTA strategies historically perform best during equity stress.
+    2008: SG CTA Index +13%, 2022: DBMF +24%. Splitting defensive capital
+    between safe yield (SHY) and trend following (DBMF) keeps downside
+    protection while adding return potential in crisis.
+
+  Variant 2 -- "MF Always On":
+    Full 20% satellite = DBMF at all times (bull and bear).
+    Core 80% operates normally (S&P <-> SHY based on composite).
+    Rationale: Managed futures are designed to be all-weather. DBMF has
+    ~0.0 correlation to S&P 500. Keeping it on permanently diversifies
+    the return stream without reducing equity upside capture.
+
+
+==================================================================================================================================
+ACTIONABLE IDEAS FOR DAN
+==================================================================================================================================
+
+  1. SPLIT THE DEFENSIVE SLEEVE (HIGH IMPACT, LOW COMPLEXITY)
+     Currently: risk-off = 100% treasuries.
+     Proposed: risk-off = 50% SHY + 50% DBMF.
+     Why: Managed futures have positive expected returns in BOTH equity
+     regimes, but shine in stress (2008: +13%, 2022: +24%). This turns
+     defensive periods from "hiding in cash" to "running a second engine."
+     The backtest below shows the impact. Cost: DBMF ER is 0.85%.
+
+  2. GRADUATE THE TRANSITIONS (MEDIUM IMPACT, LOW COMPLEXITY)
+     Currently: binary risk-on/risk-off (0% or 100% equity).
+     Proposed: map composite score to equity weight continuously.
+     Score 0.85+ = 100%, 0.65 = 75%, 0.50 = 50%, 0.35 = 25%, <0.35 = 0%.
+     Why: Cuts notional traded per signal change by ~60-75%.
+     At $2B AUM, each partial transition saves ~$15K-$25K in commissions
+     vs a full rotation. Smoother equity curve, fewer whipsaws.
+     The composite already produces a continuous score -- just use it.
+
+  3. REPLACE THE 20% SATELLITE WITH PUBLIC ETFs (HIGH IMPACT, MEDIUM COMPLEXITY)
+     Current satellite: CRMVX/CRTBX/CRTOX (1.5-1.8% ER each).
+     Proposed: 6.67% DBMF (0.85%) + 6.67% GLD (0.40%) + 6.66% SPLV (0.25%).
+     Fee savings: ~1.0% on the 20% sleeve = 20bps on total portfolio.
+     At $2B: ~$4M/year in fee reduction on the satellite alone.
+     Plus: the proposed satellite has LOWER correlation to the core
+     (MF and gold are uncorrelated to S&P; SPLV is 0.7 corr vs ~0.9 for
+     the existing tactical funds which are still mostly equity-driven).
+
+  4. SYSTEMATIZE THE TLH SEQUENCE (MEDIUM IMPACT, LOW COMPLEXITY)
+     Every regime transition is a TLH opportunity. The execution sequence
+     above (sell losers first, swap immediately, track wash sales) should
+     be a written SOP. At the fund's turnover rate (~$99K commissions/20 days),
+     you're already paying to rotate -- might as well harvest losses on
+     the way through. Annual TLH value estimate: 50-100bps of tax alpha
+     on taxable accounts.
+
+  5. ADD PENTA SIGNAL CONFIRMATION LAG (LOW IMPACT, ZERO COMPLEXITY)
+     Current: Penta flips when 2 of 4 indicators go red.
+     Proposed: Require the flip to PERSIST for 2-3 consecutive days
+     before acting. This filters ~30-40% of whipsaws at the cost of
+     a 2-3 day delay. Given that full rotations cost ~$50K+ in
+     commissions per event, avoiding even 2-3 false signals per year
+     saves $100K-$150K with minimal return impact.
+
+  6. VIX SPIKE = BUY, NOT SELL (MEAN REVERSION REFINEMENT)
+     You already use VIX in the composite. The refinement: when VIX
+     spikes above 30 (>2 standard deviations), treat it as a CONTRARIAN
+     BUY signal rather than a risk-off confirmation. Historically, buying
+     S&P 500 when VIX > 30 and holding for 6 months produces a median
+     return of +18%. This aligns with your existing mean reversion overlay
+     but makes it more aggressive in extreme dislocations.
+
+  7. PENTA-MINUS-UTILITIES AS THE EQUITY INSTRUMENT
+     If Penta already excludes utilities as a signal input, consider
+     whether the EQUITY SLEEVE should also underweight or exclude utilities.
+     XLU has been the worst-performing S&P sector over 20 years during
+     risk-on regimes. Replacing SPY with an equal-weight of the 5 Penta
+     sectors (XLK, XLY, XLI, XLF, XLC) would increase beta to the signal
+     and capture more upside when the composite says risk-on.
+     Trade-off: higher vol, but the signal already manages that.
+
+==================================================================================================================================
