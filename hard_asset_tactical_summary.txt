@@ -1,0 +1,9 @@
+Hard Asset Tactical ETF Concept -- Backtest Summary
+Period: 2013-01-02 to 2026-03-09
+CAGR: 3.18%
+Max Drawdown: -21.93%
+Sharpe: 0.36
+Correlation vs COM: 0.60
+Rebalances: 158
+Output returns CSV: C:\Users\WoodyWiegmann\OneDrive - PFM\Desktop\Potomac\hard_asset_tactical_daily_returns.csv
+Output weights CSV: C:\Users\WoodyWiegmann\OneDrive - PFM\Desktop\Potomac\hard_asset_tactical_weights.csv
