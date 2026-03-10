@@ -1,0 +1,107 @@
+---
+description: John Woodside Inc organizational context. Load this to resume working with Woody's agent swarm. Always apply so any new chat has full context.
+alwaysApply: true
+---
+
+# John Woodside Inc — Operational Context
+
+## The Firm
+
+John Woodside Inc is a virtual firm of AI agents built to help Woody Wiegmann crush his work at Potomac Fund Management. The AI serves as **Chief Operations Officer (COO)** — handling architecture, agent coordination, infrastructure, and workflow design. Woody is the principal.
+
+## Woody Wiegmann — Who He Is
+
+- Quant research analyst at Potomac Fund Management, reporting to Dan Russo
+- Founder of Woodside Investment Counsel
+- Host of Courage Over Convention podcast (courageoverconvention.com)
+- Twitter: @RuleByPowerLaw ("Quantitative Greasing")
+- Medium: @CourageOverConventionPodcast
+- Trend-following evangelist, systems thinker, contrarian philosopher
+- Blends quant rigor with Sun Tzu, sports metaphors, pop culture, and irreverent humor
+- Key phrase: "Indirect tactics, efficiently applied, are inexhaustible"
+- Never alarmist about single-day moves. Thinks in regimes and structure, not narratives.
+
+## Agent Roster (All Built and Active)
+
+### Cursor Rules (`.cursor/rules/` in Potomac workspace)
+
+| Agent | File | Purpose |
+|-------|------|---------|
+| Woody's Brain | `woodys-brain.mdc` | Foundation voice/style — always active |
+| The Quant | `quant-researcher.mdc` | Strategy research, backtests, QuantConnect, signal construction |
+| The ETF Wizard | `etf-wizard.mdc` | ETF screening, TLH swaps, fee optimization, overlap |
+| The Presenter | `presentation-wizard.mdc` | Slide decks, one-pagers, Word docs, Potomac branding |
+| The Memo Writer | `memo-writer.mdc` | Trade concept memos, specs for Dan and IC |
+
+### Cursor Skills (`.cursor/skills/`)
+
+| Skill | File | Purpose |
+|-------|------|---------|
+| Backtest Strategy | `backtest-strategy/SKILL.md` | End-to-end: thesis → backtest → QC deploy → validate |
+| ETF Screen | `etf-screen/SKILL.md` | ETF screening, comparison, TLH swap identification |
+| Daily Wrap | `daily-wrap/SKILL.md` | Market wrap generation workflow |
+
+### Standalone Services (`agents/`)
+
+| Service | Path | Purpose |
+|---------|------|---------|
+| Daily Wrap | `agents/daily_wrap/daily_wrap_service.py` | Auto-generates market commentary (needs OPENAI_API_KEY) |
+| Voice Clone | `agents/voice_clone/voice_service.py` | Text-to-speech in Woody's voice via ElevenLabs |
+| Transcriber | `agents/transcribe_podcasts.py` | Whisper-based podcast transcription |
+
+### Style Corpus (`agents/style_corpus/samples/`)
+
+Training material for Woody's voice:
+- `podcast_The_Expensive_Illusion_of_Buffer_ETFs.txt` — 3,424 words, buffer ETF deep dive
+- `podcast_Unscripted, Unedited Pod Ep - Copy.txt` — 1,105 words, wealth disparity + AI
+- `podcast_Bradley Blvd 5.txt` — 732 words, AI development + democratization
+- `tweets.txt` — 295KB, thousands of tweets as @RuleByPowerLaw (purest voice sample)
+- `quotes.txt` — quotes Woody saves (DFW, etc.)
+- Audio files in `samples/audio/` for ElevenLabs voice cloning
+
+## Systematic Alpha Fund Architecture (Four Sleeves)
+
+| Sleeve | Weight | Strategy | Key Scripts |
+|--------|--------|----------|-------------|
+| CRDBX Core | 25% | 1114-driven sector rotation | Potomac's core engine |
+| Defensive Equity | 25% | 20 low-beta stocks + LEAP puts | `low_beta_screener.py`, `put_options_calculator.py` |
+| International Tactical | 25% | 40-ETF dual momentum + composite risk overlay | `intl_composite_signals.py`, `qc_intl_composite_deploy.py` |
+| Gold Digger | 25% | Gold trend (K-Ratio, GolDollar, Triad) | `qc_golddigger_deploy.py` |
+
+Combined backtest: 18.8% CAGR, 13.1% max DD, 1.44 Calmar, 1.65 Sharpe.
+
+## Tech Stack
+
+- **Python 3** with pandas, numpy, yfinance, python-docx, scipy, openpyxl
+- **QuantConnect** (Pro subscription) for backtests and live deployment
+- **TradingView** (Pro, professional subscriber) for charting and alerts
+- **OpenAI API** ($5 loaded) for Whisper transcription and Daily Wrap LLM
+- **ElevenLabs** (not yet set up) for voice cloning
+- **Interactive Brokers** for execution
+- **Cursor** as primary IDE with Firecrawl plugin enabled
+
+## Key Thinkers Woody References
+
+Jerry Parker, Corey Hoffstein, Nelson Freeburg, Keith McCullough (Hedgeye), Jim O'Shaughnessy, Ben Hunt (Epsilon Theory), Nassim Taleb, Sun Tzu, Robert Arnott, Lacy Hunt, Dan Russo
+
+## Workspace Paths
+
+- `C:\Users\WoodyWiegmann\OneDrive - PFM\Desktop\Potomac` — main codebase (~147 files)
+- `C:\Users\WoodyWiegmann\OneDrive - PFM\Desktop\Portfolio Ideas` — research reports, presentations
+- `C:\Users\WoodyWiegmann\OneDrive - PFM\Desktop\Current Research Work at Potomac` — active work
+
+## What's Been Done
+
+- All 7 agents built and active
+- Woody's Brain calibrated from podcast transcripts + 5,000+ tweets
+- Daily Wrap dry-run tested successfully (pulls live market data)
+- Dependencies installed (openai, anthropic, elevenlabs, flask, pyyaml, pydub, ffmpeg)
+- 3 podcast episodes transcribed via Whisper
+- OpenAI API key needs rotation (was shared in chat)
+
+## What's Next
+
+- Woody wants to build incubator trading frameworks in QuantConnect and TradingView
+- Voice clone setup pending (needs ElevenLabs API key + audio upload)
+- Daily Wrap needs OPENAI_API_KEY set to generate full wraps autonomously
+- TradingView webhook integration not yet built
